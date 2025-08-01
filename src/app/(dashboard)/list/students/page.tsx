@@ -150,7 +150,7 @@ const StudentListPage = async ({
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-200">
               <Image src="/filter.png" alt="" width={14} height={14} />
             </button>
-            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yello-200">
+            <button className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-200">
               <Image src="/sort.png" alt="" width={14} height={14} />
             </button>
             {role === "admin" && (
