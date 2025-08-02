@@ -471,3 +471,12 @@ export const deleteExam = async (
     return { success: false, error: true };
   }
 };
+
+// For direct call from form with async/await
+export const createTeacherDirect = async (data: TeacherSchema) => {
+  return await createTeacher({ success: false, error: false }, data);
+};
+
+export const updateTeacherDirect = async (data: TeacherSchema) => {
+  return await updateTeacher({ success: false, error: false }, data);
+};

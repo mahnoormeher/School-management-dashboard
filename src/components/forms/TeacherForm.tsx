@@ -5,13 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputField from "../InputField";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction,  useState } from "react";
 import { teacherSchema, TeacherSchema } from "@/lib/formValidationSchemas";
-import { useFormState } from "react-dom";
-import { createTeacher, updateTeacher } from "@/lib/actions";
+import { createTeacherDirect, updateTeacherDirect } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { CldUploadWidget } from "next-cloudinary";
+
 
 const TeacherForm = ({
   type,
@@ -34,24 +34,21 @@ const TeacherForm = ({
 
   const [img, setImg] = useState<any>();
 
-  const [state, formAction] = useFormState(
-    type === "create" ? createTeacher : updateTeacher,
-    { success: false, error: false }
-  );
-
   const router = useRouter();
 
-  const onSubmit = handleSubmit((formData) => {
-    formAction({ ...formData, img: img?.secure_url });
-  });
+  const onSubmit = handleSubmit(async (formData) => {
+  const result = await (type === "create"
+   ? createTeacherDirect({ ...formData, img: img?.secure_url })
+  : updateTeacherDirect({ ...formData, img: img?.secure_url }));
 
-  useEffect(() => {
-    if (state.success) {
-      toast.success(`Teacher has been ${type === "create" ? "created" : "updated"}!`);
-      setOpen(false);
-      router.refresh();
-    }
-  }, [state, router, type, setOpen]);
+  if (result?.success) {
+    toast.success(`Teacher has been ${type === "create" ? "created" : "updated"}!`);
+    setOpen(false);
+    router.refresh();
+  } else {
+    toast.error("Something went wrong!");
+  }
+});
 
   const { subjects } = relatedData;
 
@@ -111,9 +108,6 @@ const TeacherForm = ({
           )}
         </CldUploadWidget>
       </div>
-
-      {state.error && <span className="text-red-500">Something went wrong!</span>}
-
       <button type="submit" className="bg-purple-600 text-white p-2 rounded-md">
         {type === "create" ? "Create" : "Update"}
       </button>
