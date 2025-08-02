@@ -481,3 +481,11 @@ export const createTeacherDirect = async (data: TeacherSchema) => {
 export const updateTeacherDirect = async (data: TeacherSchema) => {
   return await updateTeacher({ success: false, error: false }, data);
 };
+
+export const createStudentDirect = async (data: StudentSchema) => {
+  return await createStudent({ success: false, error: false }, data);
+};
+
+export const updateStudentDirect = async (data: StudentSchema) => {
+  return await updateStudent({ success: false, error: false }, data);
+};
