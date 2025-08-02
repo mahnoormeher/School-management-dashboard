@@ -144,6 +144,7 @@ export const createTeacher = async (
   currentState: CurrentState,
   data: TeacherSchema
 ) => {
+    console.log("CreateTeacher received:", data);
   try {
     const user = await clerkClient.users.createUser({
       username: data.username,
@@ -177,7 +178,7 @@ export const createTeacher = async (
    revalidatePath("/list/teachers");
     return { success: true, error: false };
   } catch (err) {
-    console.log(err);
+   console.error("CreateTeacher error:", err);
     return { success: false, error: true };
   }
 };
